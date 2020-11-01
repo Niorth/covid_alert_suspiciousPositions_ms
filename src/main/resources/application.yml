@@ -1,0 +1,4 @@
+server:
+  port: 3005
+app:
+  version: 1.0.0
