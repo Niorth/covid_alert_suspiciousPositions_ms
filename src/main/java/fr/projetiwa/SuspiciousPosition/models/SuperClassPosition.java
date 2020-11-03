@@ -1,6 +1,9 @@
 package fr.projetiwa.SuspiciousPosition.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @MappedSuperclass
@@ -10,7 +13,8 @@ public class SuperClassPosition {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long position_id;
     protected Float longitude;
-    protected Date position_date;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
+    protected Timestamp position_date;
     protected Float latitude;
 
     public long getPosition_id() {
@@ -37,11 +41,11 @@ public class SuperClassPosition {
         this.longitude = longitude;
     }
 
-    public Date getPosition_date() {
+    public Timestamp getPosition_date() {
         return position_date;
     }
 
-    public void setPosition_date(Date position_date) {
+    public void setPosition_date(Timestamp position_date) {
         this.position_date = position_date;
     }
 }
