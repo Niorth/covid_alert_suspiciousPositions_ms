@@ -7,9 +7,17 @@ import javax.persistence.*;
 import java.util.List;
 
 
-@Entity(name="suspicious_position")
+@Entity(name="suspiciousPosition")
 @Access(AccessType.FIELD)
 @JsonIgnoreProperties({"hibernateLazyInitializer","handler"})
 public class SuspiciousPosition extends SuperClassPosition {
 
+    @Override
+    public String toString() {
+        return "{" +
+                "longitude:" + longitude +
+                ", positionDate:" + positionDate +
+                ", latitude:" + latitude +
+                '}';
+    }
 }

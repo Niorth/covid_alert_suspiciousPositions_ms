@@ -11,18 +11,18 @@ public class SuperClassPosition {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long position_id;
+    private long positionId;
     protected Float longitude;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    protected Timestamp position_date;
+    protected Timestamp positionDate;
     protected Float latitude;
 
-    public long getPosition_id() {
-        return position_id;
+    public long getPositionId() {
+        return positionId;
     }
 
-    public void setPosition_id(long position_id) {
-        this.position_id = position_id;
+    public void setPositionId(long positionId) {
+        this.positionId = positionId;
     }
 
     public Float getLatitude() {
@@ -41,11 +41,11 @@ public class SuperClassPosition {
         this.longitude = longitude;
     }
 
-    public Timestamp getPosition_date() {
-        return position_date;
+    public Timestamp getPositionDate() {
+        return positionDate;
     }
 
     public void setPosition_date(Timestamp position_date) {
-        this.position_date = position_date;
+        this.positionDate = position_date;
     }
 }

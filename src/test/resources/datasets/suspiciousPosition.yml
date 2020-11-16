@@ -1,0 +1,9 @@
+suspiciousPosition:
+  - positionId: 1
+    longitude: 10
+    latitude: 10
+    positionDate: "[now]"
+  - positionId: 2
+    longitude: 10
+    latitude: 10
+    positionDate: "[now]"
