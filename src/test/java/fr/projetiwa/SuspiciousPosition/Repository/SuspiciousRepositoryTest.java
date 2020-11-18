@@ -42,6 +42,13 @@ public class SuspiciousRepositoryTest {
     }
     @Test
     @DataSet("suspiciousPosition.yml")
+    void testFindOne() {
+        Long id = new Long(1);
+        SuspiciousPosition suspiciousPosition = repository.getOne(id);
+        assertThat(suspiciousPosition).isNotNull();
+    }
+    @Test
+    @DataSet("suspiciousPosition.yml")
     void testFindAllNotEqual() {
         List<SuspiciousPosition> suspiciousPositions =
                 Lists.newArrayList(repository.findAll());

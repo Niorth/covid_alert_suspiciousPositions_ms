@@ -1,6 +1,7 @@
 package fr.projetiwa.SuspiciousPosition.controllers;
 
 
+import fr.projetiwa.SuspiciousPosition.Services.SuspiciousPositionService;
 import fr.projetiwa.SuspiciousPosition.models.SuspiciousPosition;
 import fr.projetiwa.SuspiciousPosition.repositories.SuspiciousPositionRepository;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -25,7 +26,7 @@ public class SuspiciousPositionController {
 
 
     @Autowired
-    private SuspiciousPositionRepository susRepository ;
+    private SuspiciousPositionService suspiciousPositionService;
 
 
 
@@ -38,17 +39,17 @@ public class SuspiciousPositionController {
 
     @GetMapping
     public ResponseEntity<List<SuspiciousPosition>> list () {
-        return new ResponseEntity<List<SuspiciousPosition>>(susRepository.findAll(), HttpStatus.OK);}
+        return new ResponseEntity<List<SuspiciousPosition>>(suspiciousPositionService.findAll(), HttpStatus.OK);}
     @GetMapping
     @RequestMapping("{id}")
     public ResponseEntity<SuspiciousPosition> get ( @PathVariable Long id ) {
-        if(!susRepository.existsById(id))
+        if(!suspiciousPositionService.existsById(id))
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        return new ResponseEntity<SuspiciousPosition>(susRepository.getOne(id), HttpStatus.OK);
+        return new ResponseEntity<SuspiciousPosition>(suspiciousPositionService.getOne(id), HttpStatus.OK);
     }
     @PostMapping()
     public ResponseEntity<SuspiciousPosition> create(@RequestBody SuspiciousPosition sus) {
-        return new ResponseEntity<SuspiciousPosition>(susRepository.saveAndFlush(sus), HttpStatus.OK);}
+        return new ResponseEntity<SuspiciousPosition>(suspiciousPositionService.saveAndFlush(sus), HttpStatus.CREATED);}
 
 
 }

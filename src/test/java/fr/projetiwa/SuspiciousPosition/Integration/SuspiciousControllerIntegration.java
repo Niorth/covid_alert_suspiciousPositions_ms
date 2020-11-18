@@ -1,8 +1,10 @@
 package fr.projetiwa.SuspiciousPosition.Integration;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.junit5.DBUnitExtension;
+import fr.projetiwa.SuspiciousPosition.models.SuspiciousPosition;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -31,6 +33,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.Is.is;
 import javax.sql.DataSource;
+import java.sql.Timestamp;
+import java.util.Date;
 
 @ExtendWith({DBUnitExtension.class, SpringExtension.class})
 @SpringBootTest
@@ -46,6 +50,19 @@ public class SuspiciousControllerIntegration {
         // from our data source
         return () -> dataSource.getConnection();
     }
+    @Test
+    @DisplayName("GET /suslocation - Found")
+    @DataSet("suspiciousPosition.yml")
+    void testGetPositionsFound() throws Exception {
+
+        mockMvc.perform(get("/suslocation",1))
+                // Validate the status code and content type
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                // Validate the returned fields
+                .andExpect(jsonPath("$.length()", is(2)));
+    }
+
     @Test
     @DisplayName("GET /suslocation/1 - Found")
     @DataSet("suspiciousPosition.yml")
@@ -69,5 +86,28 @@ public class SuspiciousControllerIntegration {
                 // Validate the status code and content type
                 .andExpect(status().isNotFound());
     }
-    // ...
+    @Test
+    @DisplayName("POST /suslocation - Success")
+    @DataSet("suspiciousPosition.yml")
+    void testCreatePosition() throws Exception{
+        SuspiciousPosition sus = new SuspiciousPosition();
+        sus.setLongitude(1f);
+        sus.setLatitude(1f);
+        sus.setPosition_date(new Timestamp(new Date().getTime()));
+        mockMvc.perform(post("/suslocation/").contentType(APPLICATION_JSON).content(asJsonString(sus)))
+                .andExpect(status().isCreated()).andExpect(content().contentType(APPLICATION_JSON))
+                .andExpect(jsonPath("$.positionId", is(3)))
+                .andExpect(jsonPath("$.latitude", is(1.0)))
+                .andExpect(jsonPath("$.longitude",is(1.0)));
+
+
+    }
+
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
