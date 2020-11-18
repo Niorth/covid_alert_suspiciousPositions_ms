@@ -48,4 +48,11 @@ public class SuperClassPosition {
     public void setPosition_date(Timestamp position_date) {
         this.positionDate = position_date;
     }
+
+    public SuperClassPosition(Float longitude, Timestamp positionDate, Float latitude) {
+        this.longitude = longitude;
+        this.positionDate = positionDate;
+        this.latitude = latitude;
+    }
+    public SuperClassPosition(){}
 }

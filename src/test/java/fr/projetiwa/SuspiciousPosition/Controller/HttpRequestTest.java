@@ -23,6 +23,5 @@ public class HttpRequestTest {
     public void shouldReturnDefaultMessage() throws Exception {
         this.mockMvc.perform(get("/suslocation")).andDo(print())
                 .andExpect(status().isOk());
-
     }
 }

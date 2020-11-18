@@ -5,6 +5,7 @@ import com.github.database.rider.core.api.connection.ConnectionHolder;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.junit5.DBUnitExtension;
 import fr.projetiwa.SuspiciousPosition.models.SuspiciousPosition;
+import fr.projetiwa.SuspiciousPosition.util.Function;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,6 +44,8 @@ import java.util.Date;
 public class SuspiciousControllerIntegration {
     @Autowired
     MockMvc mockMvc;
+    @Autowired
+    private Function service;
     @Autowired
     private DataSource dataSource;
     public ConnectionHolder getConnectionHolder() {
@@ -90,11 +93,8 @@ public class SuspiciousControllerIntegration {
     @DisplayName("POST /suslocation - Success")
     @DataSet("suspiciousPosition.yml")
     void testCreatePosition() throws Exception{
-        SuspiciousPosition sus = new SuspiciousPosition();
-        sus.setLongitude(1f);
-        sus.setLatitude(1f);
-        sus.setPosition_date(new Timestamp(new Date().getTime()));
-        mockMvc.perform(post("/suslocation/").contentType(APPLICATION_JSON).content(asJsonString(sus)))
+        SuspiciousPosition sus = new SuspiciousPosition(1f,new Timestamp(new Date().getTime()),1f);
+        mockMvc.perform(post("/suslocation/").contentType(APPLICATION_JSON).content(service.asJsonString(sus)))
                 .andExpect(status().isCreated()).andExpect(content().contentType(APPLICATION_JSON))
                 .andExpect(jsonPath("$.positionId", is(3)))
                 .andExpect(jsonPath("$.latitude", is(1.0)))
@@ -103,11 +103,5 @@ public class SuspiciousControllerIntegration {
 
     }
 
-    public static String asJsonString(final Object obj) {
-        try {
-            return new ObjectMapper().writeValueAsString(obj);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
+
 }

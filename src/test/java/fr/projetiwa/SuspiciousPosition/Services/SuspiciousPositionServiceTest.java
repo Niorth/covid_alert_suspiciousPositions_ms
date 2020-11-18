@@ -30,11 +30,9 @@ public class SuspiciousPositionServiceTest {
     @Test
     @DisplayName("Test findById Success")
     void testFindByIdSuccess(){
-        SuspiciousPosition mockProduct = new SuspiciousPosition();
+        SuspiciousPosition mockProduct = new SuspiciousPosition(1f,new Timestamp(new Date().getTime()),1f);
         mockProduct.setPositionId(1);
-        mockProduct.setPosition_date(new Timestamp(new Date().getTime()));
-        mockProduct.setLatitude(1f);
-        mockProduct.setLongitude(1f);
+
         Long id = new Long(1);
         doReturn(Optional.of(mockProduct)).when(suspiciousPositionRepository).findById(id);
         Optional<SuspiciousPosition> returnedObject = suspiciousPositionService.findById(id);
@@ -45,16 +43,11 @@ public class SuspiciousPositionServiceTest {
     @Test
     @DisplayName("Test findAll Success")
     void testFindByAllSuccess(){
-        SuspiciousPosition mockProduct = new SuspiciousPosition();
+        SuspiciousPosition mockProduct = new SuspiciousPosition(1f,new Timestamp(new Date().getTime()),1f);
         mockProduct.setPositionId(1);
-        mockProduct.setPosition_date(new Timestamp(new Date().getTime()));
-        mockProduct.setLatitude(1f);
-        mockProduct.setLongitude(1f);
-        SuspiciousPosition mockProduct2 = new SuspiciousPosition();
+
+        SuspiciousPosition mockProduct2 = new SuspiciousPosition(1f,new Timestamp(new Date().getTime()),1f);
         mockProduct2.setPositionId(2);
-        mockProduct2.setPosition_date(new Timestamp(new Date().getTime()));
-        mockProduct2.setLatitude(1f);
-        mockProduct2.setLongitude(1f);
 
         doReturn(Arrays.asList(mockProduct,mockProduct2)).when(suspiciousPositionRepository).findAll();
         List<SuspiciousPosition> positions = suspiciousPositionService.findAll();
@@ -64,11 +57,8 @@ public class SuspiciousPositionServiceTest {
     @Test
     @DisplayName("Test findById not found")
     void testFindByIdNotFound(){
-        SuspiciousPosition mockProduct = new SuspiciousPosition();
+        SuspiciousPosition mockProduct = new SuspiciousPosition(1f,new Timestamp(new Date().getTime()),1f);
         mockProduct.setPositionId(1);
-        mockProduct.setPosition_date(new Timestamp(new Date().getTime()));
-        mockProduct.setLatitude(1f);
-        mockProduct.setLongitude(1f);
         Long id = new Long(1);
         doReturn(Optional.empty()).when(suspiciousPositionRepository).findById(id);
         Optional<SuspiciousPosition> returnedObject = suspiciousPositionService.findById(id);
@@ -78,11 +68,9 @@ public class SuspiciousPositionServiceTest {
     @Test
     @DisplayName("Test save position")
     void testSave(){
-        SuspiciousPosition mockProduct = new SuspiciousPosition();
+        SuspiciousPosition mockProduct = new SuspiciousPosition(1f,new Timestamp(new Date().getTime()),1f);
         mockProduct.setPositionId(1);
-        mockProduct.setPosition_date(new Timestamp(new Date().getTime()));
-        mockProduct.setLatitude(1f);
-        mockProduct.setLongitude(1f);
+
         Long id = new Long(1);
         doReturn(mockProduct).when(suspiciousPositionRepository).save(any());
         SuspiciousPosition sus = suspiciousPositionService.save(mockProduct);
