@@ -31,4 +31,9 @@ public class SuspiciousPosition extends SuperClassPosition {
                 ", latitude:" + latitude +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        return super.equals(obj);
+    }
 }

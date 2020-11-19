@@ -55,4 +55,16 @@ public class SuperClassPosition {
         this.latitude = latitude;
     }
     public SuperClassPosition(){}
+
+    @Override
+    public boolean equals(Object obj) {
+        SuspiciousPosition position = (SuspiciousPosition) obj;
+        Float absLatitude = Math.abs(this.getLatitude() - position.getLatitude());
+        Float absLongitude = Math.abs(this.getLongitude() - position.getLongitude());
+        Double precision = 0.0001;
+        if(precision>=absLatitude && precision>=absLongitude){
+            return true;
+        }
+        return super.equals(obj);
+    }
 }
