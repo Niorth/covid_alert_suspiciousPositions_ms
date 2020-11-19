@@ -19,6 +19,7 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql'
 	implementation 'org.springframework.kafka:spring-kafka'
 	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.keycloak:keycloak-spring-boot-starter:11.0.2'
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
@@ -26,7 +27,8 @@ dependencies {
 	testImplementation('com.github.database-rider:rider-core:1.18.0')
 	testImplementation('com.github.database-rider:rider-junit5:1.18.0')
 	testImplementation('com.github.springtestdbunit:spring-test-dbunit:1.3.0')
-	testImplementation('com.h2database:h2:1.4.200')
+	compile('com.h2database:h2:1.4.200')
+	compile group: 'org.json', name: 'json', version: '20200518'
 }
 
 test {
