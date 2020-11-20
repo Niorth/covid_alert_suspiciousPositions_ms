@@ -64,24 +64,14 @@ public class SuspiciousPositionController {
     }
     @PostMapping()
     public ResponseEntity<SuspiciousPosition> create(@RequestBody SuspiciousPosition sus) {
+        System.out.println(sus);
         return new ResponseEntity<SuspiciousPosition>(suspiciousPositionService.saveAndFlush(sus), HttpStatus.CREATED);
     }
 
     @GetMapping
     @RequestMapping("/isSuspicious")
     public String isSuspicious(@RequestHeader (name="Authorization") String token) throws JsonProcessingException {
-
-        String payload = token.split("\\.")[1];
-
-        try{
-            String str = new String(Base64.decodeBase64(payload),"UTF-8");
-            JSONObject jsonObject = new JSONObject(str);
-            String personId = jsonObject.getString("sub");
-
-        }catch(UnsupportedEncodingException e){
-            e.printStackTrace();
-        }
-
+        Boolean isSuspicious =Boolean.FALSE;
 
         //Recuperation des positions
         String urlPositions = "http://localhost:3003/positions";
@@ -89,30 +79,34 @@ public class SuspiciousPositionController {
         headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.add(HttpHeaders.AUTHORIZATION, token);
-        //System.out.println(headers);
         HttpEntity request = new HttpEntity(headers);
         RestTemplate restTemplate = new RestTemplate();
-        String serviceUrl = urlPositions;
-        ResponseEntity<String> response = restTemplate.exchange( serviceUrl, HttpMethod.GET, request, String.class, 1 );
+        ResponseEntity<String> response = restTemplate.exchange( urlPositions, HttpMethod.GET, request, String.class, 1 );
         List<Position> positionList = new ObjectMapper().readValue(response.getBody(), new TypeReference<List<Position>>() {});
-
-        //System.out.println(positionList.toString());
 
         //Recuperation des positions suspectes
         List<SuspiciousPosition> suspiciousPositionList = suspiciousPositionService.findAll();
-        //List<SuperClassPosition> abc = (List<SuperClassPosition>)(SuspiciousPosition) suspiciousPositionList;
-        /*SuspiciousPosition sp = new SuspiciousPosition();
-        sp.setLatitude((float) 43.6016860000000000);
-        sp.setLongitude((float) 3.9114860000000000);
-        suspiciousPositionList.add(sp);*/
-        for(Position position : positionList){
-            System.out.println(suspiciousPositionList.contains(position));
+        ListIterator<Position> positionListIterator = positionList.listIterator();
+
+        //Verification entre les position suspectes et les positions de l'utilisateur
+        while(positionListIterator.hasNext() && !isSuspicious) {
+            isSuspicious = suspiciousPositionList.contains(positionListIterator.next());
         }
 
+        //Changement du personState si isSuspicious = True
+        if(isSuspicious==Boolean.TRUE){
+            String urlPersonState = "http://localhost:3002/personState/update";
+            HttpHeaders headersPersonState = new HttpHeaders();
+            headersPersonState.setContentType(MediaType.APPLICATION_JSON);
+            headersPersonState.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+            headersPersonState.add(HttpHeaders.AUTHORIZATION, token);
+            String body = "{\"stateId\":0}";
+            HttpEntity requestPersonState = new HttpEntity(body,headersPersonState);
+            RestTemplate restTemplatePersonState = new RestTemplate();
+            ResponseEntity<String> response2 = restTemplatePersonState.exchange( urlPersonState, HttpMethod.POST, requestPersonState, String.class, 1 );
+        }
 
-        //System.out.println(response.getBody());
-        //return "{\"success\":1}";
-        return response.getBody();
+        return "{\"success\":1,\"isSuspicious\":"+isSuspicious+"}";
     }
 
 
