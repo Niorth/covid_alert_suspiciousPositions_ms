@@ -58,12 +58,20 @@ public class SuperClassPosition {
 
     @Override
     public boolean equals(Object obj) {
-        SuspiciousPosition position = (SuspiciousPosition) obj;
-        Float absLatitude = Math.abs(this.getLatitude() - position.getLatitude());
-        Float absLongitude = Math.abs(this.getLongitude() - position.getLongitude());
+        SuspiciousPosition susposition = (SuspiciousPosition) obj;
+        Float absLatitude = Math.abs(this.getLatitude() - susposition.getLatitude());
+        Float absLongitude = Math.abs(this.getLongitude() - susposition.getLongitude());
         Double precision = 0.0001;
-        if(precision>=absLatitude && precision>=absLongitude){
-            return true;
+
+        int THIRTY_MINUTES = 30 * 60 * 1000;
+        Long borneInf = susposition.getPositionDate().getTime() - THIRTY_MINUTES;
+        Long borneSup = susposition.getPositionDate().getTime() + THIRTY_MINUTES;
+        Long timeRef = this.getPositionDate().getTime();
+
+        if(precision>=absLatitude && precision>=absLongitude){ //Check the position
+            if((borneInf < timeRef) && (timeRef < borneSup)){ //Check the timestamp
+                return true;
+            }
         }
         return super.equals(obj);
     }
