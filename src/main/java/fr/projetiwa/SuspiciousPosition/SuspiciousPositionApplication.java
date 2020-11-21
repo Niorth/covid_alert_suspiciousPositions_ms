@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.kafka.listener.ContainerProperties;
 import org.springframework.kafka.listener.MessageListener;
 import org.springframework.kafka.support.converter.StringJsonMessageConverter;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -23,6 +24,11 @@ public class SuspiciousPositionApplication {
 	@Bean
 	public StringJsonMessageConverter jsonConverter() {
 		return new StringJsonMessageConverter();
+	}
+
+	@Bean
+	public RestTemplate restTemplate() {
+		return new RestTemplate();
 	}
 
 }

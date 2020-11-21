@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.projetiwa.SuspiciousPosition.models.Position;
 import fr.projetiwa.SuspiciousPosition.models.SuspiciousPosition;
 import fr.projetiwa.SuspiciousPosition.repositories.SuspiciousPositionRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -16,6 +17,10 @@ import java.util.Optional;
 
 @Service
 public class SuspiciousPositionServiceImpl implements SuspiciousPositionService{
+
+    @Autowired
+    private RestTemplate restTemplate;
+
     private final SuspiciousPositionRepository suspiciousPositionRepository;
 
     public SuspiciousPositionServiceImpl(SuspiciousPositionRepository suspiciousPositionRepository){
@@ -61,7 +66,6 @@ public class SuspiciousPositionServiceImpl implements SuspiciousPositionService{
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
         headers.add(HttpHeaders.AUTHORIZATION, token);
         HttpEntity request = new HttpEntity(headers);
-        RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.exchange( urlPositions, HttpMethod.GET, request, String.class, 1 );
         List<Position> positionList = new ObjectMapper().readValue(response.getBody(), new TypeReference<List<Position>>() {});
         return positionList;
@@ -76,7 +80,6 @@ public class SuspiciousPositionServiceImpl implements SuspiciousPositionService{
         headersPersonState.add(HttpHeaders.AUTHORIZATION, token);
         String body = "{\"stateId\":0}";
         HttpEntity requestPersonState = new HttpEntity(body,headersPersonState);
-        RestTemplate restTemplatePersonState = new RestTemplate();
-        ResponseEntity<String> response = restTemplatePersonState.exchange( urlPersonState, HttpMethod.POST, requestPersonState, String.class, 1 );
+        ResponseEntity<String> response = restTemplate.exchange( urlPersonState, HttpMethod.POST, requestPersonState, String.class, 1 );
     }
 }
