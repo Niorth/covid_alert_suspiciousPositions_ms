@@ -74,15 +74,7 @@ public class SuspiciousPositionController {
         Boolean isSuspicious =Boolean.FALSE;
 
         //Recuperation des positions
-        String urlPositions = "http://localhost:3003/positions";
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-        headers.add(HttpHeaders.AUTHORIZATION, token);
-        HttpEntity request = new HttpEntity(headers);
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.exchange( urlPositions, HttpMethod.GET, request, String.class, 1 );
-        List<Position> positionList = new ObjectMapper().readValue(response.getBody(), new TypeReference<List<Position>>() {});
+        List<Position> positionList = suspiciousPositionService.getUserPosition(token);
 
         //Recuperation des positions suspectes
         List<SuspiciousPosition> suspiciousPositionList = suspiciousPositionService.findAll();
@@ -95,15 +87,7 @@ public class SuspiciousPositionController {
 
         //Changement du personState si isSuspicious = True
         if(isSuspicious==Boolean.TRUE){
-            String urlPersonState = "http://localhost:3002/personState/update";
-            HttpHeaders headersPersonState = new HttpHeaders();
-            headersPersonState.setContentType(MediaType.APPLICATION_JSON);
-            headersPersonState.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-            headersPersonState.add(HttpHeaders.AUTHORIZATION, token);
-            String body = "{\"stateId\":0}";
-            HttpEntity requestPersonState = new HttpEntity(body,headersPersonState);
-            RestTemplate restTemplatePersonState = new RestTemplate();
-            ResponseEntity<String> response2 = restTemplatePersonState.exchange( urlPersonState, HttpMethod.POST, requestPersonState, String.class, 1 );
+            suspiciousPositionService.setUserAsCasContact(token);
         }
 
         return "{\"success\":1,\"isSuspicious\":"+isSuspicious+"}";
