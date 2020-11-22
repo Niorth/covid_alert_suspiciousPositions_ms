@@ -87,7 +87,7 @@ public class SuspiciousPositionController {
 
         //Changement du personState si isSuspicious = True
         if(isSuspicious==Boolean.TRUE){
-            suspiciousPositionService.setUserAsCasContact(token);
+            Boolean success = suspiciousPositionService.setUserAsCasContact(token);
         }
 
         return "{\"success\":1,\"isSuspicious\":"+isSuspicious+"}";
