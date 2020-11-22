@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.projetiwa.SuspiciousPosition.models.Position;
 import fr.projetiwa.SuspiciousPosition.models.SuspiciousPosition;
 import fr.projetiwa.SuspiciousPosition.repositories.SuspiciousPositionRepository;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
@@ -71,8 +72,12 @@ public class SuspiciousPositionServiceImpl implements SuspiciousPositionService{
         return positionList;
     }
 
+
+    /*
+    Return True if the response success equals 1
+     */
     @Override
-    public void setUserAsCasContact(String token) {
+    public Boolean setUserAsCasContact(String token) {
         String urlPersonState = "http://localhost:3002/personState/update";
         HttpHeaders headersPersonState = new HttpHeaders();
         headersPersonState.setContentType(MediaType.APPLICATION_JSON);
@@ -81,5 +86,8 @@ public class SuspiciousPositionServiceImpl implements SuspiciousPositionService{
         String body = "{\"stateId\":0}";
         HttpEntity requestPersonState = new HttpEntity(body,headersPersonState);
         ResponseEntity<String> response = restTemplate.exchange( urlPersonState, HttpMethod.POST, requestPersonState, String.class, 1 );
+        JSONObject jsonObject = new JSONObject(response.getBody());
+        Integer success = jsonObject.getInt("success");
+        return success.equals(1);
     }
 }

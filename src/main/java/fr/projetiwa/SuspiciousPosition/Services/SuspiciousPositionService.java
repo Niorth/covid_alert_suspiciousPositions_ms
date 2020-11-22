@@ -3,10 +3,9 @@ package fr.projetiwa.SuspiciousPosition.Services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.projetiwa.SuspiciousPosition.models.Position;
 import fr.projetiwa.SuspiciousPosition.models.SuspiciousPosition;
-import fr.projetiwa.SuspiciousPosition.repositories.SuspiciousPositionRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.swing.plaf.SeparatorUI;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,7 +24,7 @@ public interface SuspiciousPositionService {
 
     List<Position> getUserPosition(String token) throws JsonProcessingException;
 
-    void setUserAsCasContact(String token);
+    Boolean setUserAsCasContact(String token);
 
 
 }
