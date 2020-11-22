@@ -1,0 +1,13 @@
+suspiciousPosition:
+  - positionId: 1
+    longitude: 10.05632
+    latitude: 60.0563
+    positionDate: '2020-10-10 14:30:00'
+  - positionId: 2
+    longitude: 10.05732
+    latitude: 60.0563
+    positionDate: '2020-10-10 14:30:00'
+  - positionId: 1
+    longitude: 10.0563
+    latitude: 60.0563
+    positionDate: '2020-10-10 13:50:00'
