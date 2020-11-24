@@ -72,6 +72,11 @@ public class SuspiciousControllerIntegration {
         // from our data source
         return () -> dataSource.getConnection();
     }
+
+    /**
+     * Test if the route /suslocation worked and return a list of suspicious position
+     * @throws Exception
+     */
     @Test
     @DisplayName("GET /suslocation - Found")
     @DataSet("suspiciousPosition.yml")
@@ -85,6 +90,10 @@ public class SuspiciousControllerIntegration {
                 .andExpect(jsonPath("$.length()", is(2)));
     }
 
+    /**
+     * To test if the route return a suspicious position item when we give an id
+     * @throws Exception
+     */
     @Test
     @DisplayName("GET /suslocation/1 - Found")
     @DataSet("suspiciousPosition.yml")
@@ -100,6 +109,11 @@ public class SuspiciousControllerIntegration {
                 .andExpect(jsonPath("$.longitude",is(10.0)));
 
     }
+
+    /**
+     * To test if there is an error if we give a random id not likend with a suspicious position
+     * @throws Exception
+     */
     @Test
     @DisplayName("GET /suslocation/1000 - Not Found")
     @DataSet("suspiciousPosition.yml")
@@ -108,6 +122,11 @@ public class SuspiciousControllerIntegration {
                 // Validate the status code and content type
                 .andExpect(status().isNotFound());
     }
+
+    /**
+     * To test if we can add a new suspicious position to the database
+     * @throws Exception
+     */
     @Test
     @DisplayName("POST /suslocation - Success")
     @DataSet("suspiciousPosition.yml")
@@ -121,7 +140,6 @@ public class SuspiciousControllerIntegration {
 
 
     }
-
 
     @Test
     @DisplayName("GET /suslocation/isSuspicious - Success")

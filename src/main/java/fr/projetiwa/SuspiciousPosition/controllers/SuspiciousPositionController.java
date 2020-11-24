@@ -44,17 +44,24 @@ public class SuspiciousPositionController {
     private SuspiciousPositionService suspiciousPositionService;
 
 
-
     @Autowired
     KafkaTemplate<String,SuspiciousPosition> kafkaTemplate;
 
     private static final String TOPIC = "blabla";
 
-
-
+    /**
+     * Return the list of suspicious position
+     * @return list of suspicious position
+     */
     @GetMapping
     public ResponseEntity<List<SuspiciousPosition>> list () {
         return new ResponseEntity<List<SuspiciousPosition>>(suspiciousPositionService.findAll(), HttpStatus.OK);}
+
+    /**
+     *  get a suspicious position by his id
+      * @param id is the id of a suspicious position
+     * @return a suspicious position
+     */
     @GetMapping
     @RequestMapping("{id}")
     public ResponseEntity<SuspiciousPosition> get ( @PathVariable Long id ) {
@@ -62,6 +69,12 @@ public class SuspiciousPositionController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<SuspiciousPosition>(suspiciousPositionService.getOne(id), HttpStatus.OK);
     }
+
+    /**
+     * Create a new suspicious position
+     * @param sus is the objet created by the request body content
+     * @return the new suspicious position created
+     */
     @PostMapping()
     public ResponseEntity<SuspiciousPosition> create(@RequestBody SuspiciousPosition sus) {
         System.out.println(sus);

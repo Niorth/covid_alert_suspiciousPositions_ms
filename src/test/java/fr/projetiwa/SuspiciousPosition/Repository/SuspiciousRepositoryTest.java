@@ -32,6 +32,10 @@ public class SuspiciousRepositoryTest {
     }
     @Autowired
     private SuspiciousPositionRepository repository;
+
+    /**
+     * To test if the repository get all suspicious position
+     */
     @Test
     @DataSet("suspiciousPosition.yml")
     void testFindAll() {
@@ -40,6 +44,10 @@ public class SuspiciousRepositoryTest {
         Assertions.assertEquals(2, suspiciousPositions.size(),
                 "Expected 2 positions in the database");
     }
+
+    /**
+     * To test if the repository can return a suspicious position (by his id)
+     */
     @Test
     @DataSet("suspiciousPosition.yml")
     void testFindOne() {
@@ -47,6 +55,10 @@ public class SuspiciousRepositoryTest {
         SuspiciousPosition suspiciousPosition = repository.getOne(id);
         assertThat(suspiciousPosition).isNotNull();
     }
+
+    /**
+     * To test if the findAll return the wrong list size
+     */
     @Test
     @DataSet("suspiciousPosition.yml")
     void testFindAllNotEqual() {

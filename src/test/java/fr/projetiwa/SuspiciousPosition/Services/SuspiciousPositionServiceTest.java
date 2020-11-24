@@ -45,6 +45,9 @@ public class SuspiciousPositionServiceTest {
 
     private MockRestServiceServer mockServer;
 
+    /**
+     * To test the service of FindById
+     */
     @Test
     @DisplayName("Test findById Success")
     void testFindByIdSuccess(){
@@ -58,6 +61,9 @@ public class SuspiciousPositionServiceTest {
         Assertions.assertSame(returnedObject.get(), mockProduct, "Should be the same");
 
     }
+    /**
+     * To test the service of FindByAll
+     */
     @Test
     @DisplayName("Test findAll Success")
     void testFindByAllSuccess(){
@@ -72,6 +78,9 @@ public class SuspiciousPositionServiceTest {
         Assertions.assertEquals(2,positions.size(), "should return 2");
 
     }
+    /**
+     * To test the service of FindById when the id is incorrect
+     */
     @Test
     @DisplayName("Test findById not found")
     void testFindByIdNotFound(){
@@ -82,7 +91,9 @@ public class SuspiciousPositionServiceTest {
         Optional<SuspiciousPosition> returnedObject = suspiciousPositionService.findById(id);
         Assertions.assertFalse(returnedObject.isPresent(), "Should be not present");
     }
-
+    /**
+     * To test the service of adding a new suspicious position
+     */
     @Test
     @DisplayName("Test save position")
     void testSave(){
@@ -96,7 +107,6 @@ public class SuspiciousPositionServiceTest {
         Assertions.assertEquals(1,sus.getPositionId(),"the id should be 1");
 
     }
-
 
 
     @Test

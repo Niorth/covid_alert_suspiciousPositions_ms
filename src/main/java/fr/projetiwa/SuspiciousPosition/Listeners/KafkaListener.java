@@ -16,6 +16,10 @@ public class KafkaListener {
     @Autowired
     private SuspiciousPositionRepository suspiciousPositionRepository;
 
+    /**
+     * Listener automaticaly called when a new message enter in the topic
+     * @param sus is a Kafka message from topic "addSusPosition"
+     */
     @org.springframework.kafka.annotation.KafkaListener(topics = "addSusPosition", groupId = "addSusPosition")
     public void addNewSuspiciousPosition(SuperClassPosition sus) {
         SuspiciousPosition posi = (SuspiciousPosition) sus;

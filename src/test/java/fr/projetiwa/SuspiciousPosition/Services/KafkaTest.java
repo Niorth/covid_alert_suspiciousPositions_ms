@@ -25,22 +25,28 @@ public class KafkaTest {
     @Autowired
     KafkaTemplate<String,SuspiciousPosition> kafkaTemplate;
 
+    /**
+     * To test the kafka service, test the creation of a kafka message + test the reception of this same message
+     * @throws Exception
+     */
     @Test
-    public void test() throws Exception{
+    public void testKafka() throws Exception{
         long randomNum = 1 + (long)(Math.random() * 20);
         SuspiciousPosition sus = new SuspiciousPosition();
         sus.setLongitude(1f);
         sus.setLatitude(1f);
         sus.setPositionId(randomNum);
-
         sus.setPosition_date(new Timestamp((new Date().getTime())));
         kafkaTemplate.send("testKafka",sus);
         consumer.subscribe(Arrays.asList("testKafka"));
         List<SuspiciousPosition> list = new ArrayList<>();
             ConsumerRecords<String, SuspiciousPosition> records = consumer.poll(5000);
-            for (ConsumerRecord<String, SuspiciousPosition> record : records)
+            for (ConsumerRecord<String, SuspiciousPosition> record : records) {
+                System.err.println(randomNum);
+                System.err.println(record.value().getPositionId());
                 list.add(record.value());
-
+            }
+        System.err.print(list.size()+"");
         assertThat(list.get(list.size()-1).getPositionId() == sus.getPositionId()).isTrue();
 
 

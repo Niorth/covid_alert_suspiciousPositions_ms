@@ -17,6 +17,11 @@ import java.util.List;
 @Configuration
 public class Function {
 
+    /**
+     * To convert an object to a string
+     * @param obj
+     * @return
+     */
     public static String asJsonString(final Object obj) {
         try {
             return new ObjectMapper().writeValueAsString(obj);

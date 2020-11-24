@@ -19,6 +19,10 @@ public class HttpRequestTest {
     @Autowired
     private MockMvc mockMvc;
 
+    /**
+     * Verify if the connexion worked
+     * @throws Exception
+     */
     @Test
     public void shouldReturnDefaultMessage() throws Exception {
         this.mockMvc.perform(get("/suslocation")).andDo(print())
