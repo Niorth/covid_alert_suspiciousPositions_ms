@@ -141,6 +141,13 @@ public class SuspiciousControllerIntegration {
 
     }
 
+    /**
+     * Test isSuspicious
+     * Simulation of Position,CovidState microservice with MockServer
+     * Retrieves user positions from mockServer and retrieves susPositions from yml, compare both and return if al least one user position is Suspicious
+     * Use of suspicious position from yml file
+     * @throws Exception
+     */
     @Test
     @DisplayName("GET /suslocation/isSuspicious - Success")
     @DataSet("suspiciousPosition2.yml")

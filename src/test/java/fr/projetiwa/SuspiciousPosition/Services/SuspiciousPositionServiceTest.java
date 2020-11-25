@@ -109,6 +109,11 @@ public class SuspiciousPositionServiceTest {
     }
 
 
+    /**
+     * Test the service getUserPosition
+     * Get back a list of position and check if the owner is really the user from token
+     * @throws JsonProcessingException
+     */
     @Test
     @DisplayName("Test getUserPosition")
     void testGetUserPosition() throws JsonProcessingException {
@@ -133,6 +138,10 @@ public class SuspiciousPositionServiceTest {
         Assertions.assertEquals("5030a8a3-bb8c-42d0-87e2-030d7181a0cd",positionList.get(0).getUserId());
     }
 
+    /**
+     * Test the service setUserAsCasContact
+     * Check the return if is successful (Boolean True)
+     */
     @Test
     @DisplayName("Test setUserAsCasContact")
     void testSetUserAsCasContact(){
