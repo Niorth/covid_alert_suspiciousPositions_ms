@@ -81,6 +81,12 @@ public class SuspiciousPositionController {
         return new ResponseEntity<SuspiciousPosition>(suspiciousPositionService.saveAndFlush(sus), HttpStatus.CREATED);
     }
 
+    /**
+     * Check if the user with the token has positions identical to suspicious positions
+     * @param token
+     * @return Success 1 or 0, isSuspicious Boolean True or False
+     * @throws JsonProcessingException
+     */
     @GetMapping
     @RequestMapping("/isSuspicious")
     public String isSuspicious(@RequestHeader (name="Authorization") String token) throws JsonProcessingException {

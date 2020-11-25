@@ -56,6 +56,14 @@ public class SuperClassPosition {
     }
     public SuperClassPosition(){}
 
+    /**
+     * Override of equals : Comparison of two positions, location and temporality
+     * Two positions are equal if:
+     * - the latitude and longitude distance is less or equal than 10-4
+     * - the position time is +30min -30min from the other position (same day)
+     * @param obj
+     * @return True if object are the same
+     */
     @Override
     public boolean equals(Object obj) {
         SuspiciousPosition susposition = (SuspiciousPosition) obj;

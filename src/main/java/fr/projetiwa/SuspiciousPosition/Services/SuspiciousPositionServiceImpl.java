@@ -59,6 +59,12 @@ public class SuspiciousPositionServiceImpl implements SuspiciousPositionService{
         return suspiciousPositionRepository.save(suspiciousPosition);
     }
 
+    /**
+     * Send a request to Position microservice to retrieve all the user (token) position
+     * @param token
+     * @return The user list of Position
+     * @throws JsonProcessingException
+     */
     @Override
     public List<Position> getUserPosition(String token) throws JsonProcessingException {
         String urlPositions = "http://localhost:3003/positions";
@@ -73,8 +79,10 @@ public class SuspiciousPositionServiceImpl implements SuspiciousPositionService{
     }
 
 
-    /*
-    Return True if the response success equals 1
+    /**
+     * Send a request to CovidState microservice to set the user (token) as cas contact.
+     * @param token
+     * @return Boolean True if the request is Successfull
      */
     @Override
     public Boolean setUserAsCasContact(String token) {
